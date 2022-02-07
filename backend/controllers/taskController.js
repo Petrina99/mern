@@ -1,10 +1,14 @@
 const asyncHandler = require('express-async-handler');
 
+const Task = require('../models/taskModel');
 // gets all tasks from db
 // /api/tasks
 // private access
 const getTasks = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: 'Get tasks' });
+  const tasks = await Task.find();
+
+
+  res.status(200).json(tasks);
 })
 
 // makes a new entry in db, new task
@@ -17,7 +21,11 @@ const setTask = asyncHandler(async (req, res) => {
     throw new Error('Please add a text field.');
   }
 
-  res.status(200).json({ message: 'Set task' });
+  const task = await Task.create({
+    text: req.body.text,
+  });
+
+  res.status(200).json(task);
 })
 
 // updates an existing task
@@ -25,7 +33,20 @@ const setTask = asyncHandler(async (req, res) => {
 // private access
 
 const updateTask = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update task ${req.params.id}` });
+
+  const task = await Task.findById(req.params.id);
+
+  if (!task) {
+    res.status(400);
+    throw new Error('Task not found');
+  }
+
+  const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+     new: true,
+    });
+
+
+  res.status(200).json(updatedTask);
 })
 
 // deletes a task from db
@@ -33,7 +54,17 @@ const updateTask = asyncHandler(async (req, res) => {
 // private access
 
 const deleteTask = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete task ${req.params.id}` });
+
+  const task = await Task.findById(req.params.id);
+
+  if (!task) {
+    res.status(400);
+    throw new Error('Task not found.');
+  }
+
+  await task.remove();
+
+  res.status(200).json({ id: req.params.id });
 })
 
 module.exports = {
