@@ -1,14 +1,22 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Routing } from './routing';
+import { Header } from './components';
+import { Dashboard, Login, Register } from './pages';
 
 export const App = () => {
   return (
-    <BrowserRouter>
-      <div className='container'>
-        <Routing />
-      </div>
-    </BrowserRouter>
+    <>
+      <Router>
+        <div className='container'>
+          <Header />
+          <Routes>
+            <Route exact path='/' element={<Dashboard />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+          </Routes>
+        </div>
+      </Router>
+    </>
   );
 }
 
