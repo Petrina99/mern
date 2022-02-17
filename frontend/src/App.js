@@ -1,9 +1,14 @@
+import { BrowserRouter } from 'react-router-dom';
+
+import { Routing } from './routing';
 
 export const App = () => {
   return (
-    <div>
-      <h1>My app</h1>
-    </div>
+    <BrowserRouter>
+      <div className='container'>
+        <Routing />
+      </div>
+    </BrowserRouter>
   );
 }
 
