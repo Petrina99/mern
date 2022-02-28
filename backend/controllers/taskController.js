@@ -63,6 +63,5 @@ const deleteTask = asyncHandler(async (req, res) => {
 module.exports = {
   getTasks,
   setTask,
-  updateTask,
   deleteTask
 }
