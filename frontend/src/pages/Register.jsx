@@ -55,6 +55,7 @@ export const Register = () => {
     if (password !== password2) {
       toast.error('Passwords do not match.');
     } else {
+      
       const userData = {
         name,
         email,
