@@ -1,7 +1,6 @@
 const asyncHandler = require('express-async-handler');
 
 const Task = require('../models/taskModel');
-const User = require('../models/userModel');
 
 // gets all tasks from db
 // /api/tasks
@@ -29,39 +28,6 @@ const setTask = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json(task);
-})
-
-// updates an existing task
-// /api/tasks/id
-// private access
-
-const updateTask = asyncHandler(async (req, res) => {
-
-  const task = await Task.findById(req.params.id);
-
-  if (!task) {
-    res.status(400);
-    throw new Error('Task not found');
-  }
-
-  // check for user
-  if(!req.user) {
-    res.status(401);
-    throw new Error('User not found.');
-  }
-
-  // make sure the logged in user matches the task user
-  if(task.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error('User not authorized.');
-  }
-
-  const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
-     new: true,
-    });
-
-
-  res.status(200).json(updatedTask);
 })
 
 // deletes a task from db

@@ -44,7 +44,7 @@ const deleteTask = async (id, token) => {
 const taskService = {
   createTask,
   getTask,
-  deleteTask
+  deleteTask,
 }
 
 export default taskService;
